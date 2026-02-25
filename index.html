@@ -1,0 +1,1923 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Girls Never Die</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;700;900&family=DM+Mono:wght@400;500&family=Bebas+Neue&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0c0c0f;
+    --surface: #13131a;
+    --border: #1e1e2e;
+    --gold: #e8c97a;
+    --gold-dim: #8a7240;
+    --rose: #e87a9f;
+    --cyan: #7acce8;
+    --text: #f0ece0;
+    --muted: #6b6860;
+    --card-bg: #16161f;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Noto Serif TC', serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 100;
+    opacity: 0.5;
+  }
+
+  /* Header */
+  header {
+    padding: 70px 40px 40px;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  .header-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.3em;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 20px;
+    opacity: 0;
+    animation: fadeUp 0.6s 0.1s forwards;
+  }
+
+  h1 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(60px, 12vw, 120px);
+    line-height: 0.88;
+    letter-spacing: 0.02em;
+    color: var(--text);
+    opacity: 0;
+    animation: fadeUp 0.7s 0.2s forwards;
+  }
+
+  h1 .gold { color: var(--gold); }
+
+  .header-quote {
+    margin-top: 24px;
+    font-size: 15px;
+    color: #a09c92;
+    letter-spacing: 0.06em;
+    line-height: 1.7;
+    opacity: 0;
+    animation: fadeUp 0.6s 0.35s forwards;
+  }
+
+  .header-divider {
+    margin-top: 36px;
+    height: 1px;
+    background: linear-gradient(90deg, var(--gold) 0%, transparent 70%);
+    opacity: 0;
+    animation: fadeUp 0.6s 0.4s forwards;
+  }
+
+  /* ── TABS ── */
+  .tab-bar-wrap {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 40px;
+    opacity: 0;
+    animation: fadeUp 0.6s 0.5s forwards;
+  }
+
+  .tab-bar {
+    display: flex;
+    gap: 0;
+    border-bottom: 1px solid var(--border);
+    margin-top: 36px;
+  }
+
+  .tab-btn {
+    font-family: 'DM Mono', monospace;
+    font-size: 12.5px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    padding: 12px 24px;
+    background: none;
+    border: none;
+    color: var(--muted);
+    cursor: pointer;
+    position: relative;
+    transition: color 0.2s;
+    white-space: nowrap;
+  }
+
+  .tab-btn::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: 0; right: 0;
+    height: 2px;
+    background: var(--gold);
+    transform: scaleX(0);
+    transition: transform 0.25s;
+  }
+
+  .tab-btn.active { color: var(--gold); }
+  .tab-btn.active::after { transform: scaleX(1); }
+  .tab-btn:not(.active):hover { color: #a09c92; }
+
+  .tab-panel { display: none; }
+  .tab-panel.active { display: block; }
+
+  /* ── Final date banner ── */
+  .final-banner {
+    max-width: 900px;
+    margin: 36px auto 60px;
+    padding: 0 40px;
+    opacity: 0;
+    animation: fadeUp 0.6s 0.65s forwards;
+  }
+
+  .final-banner-inner {
+    background: linear-gradient(135deg, #1a1408 0%, #1a0e14 100%);
+    border: 1px solid var(--gold-dim);
+    border-radius: 4px;
+    padding: 24px 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .final-banner-inner::before {
+    content: '✨';
+    position: absolute;
+    font-size: 110px;
+    right: -10px; top: -20px;
+    opacity: 0.06;
+  }
+
+  .flabel {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.25em;
+    color: var(--gold-dim);
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+
+  .fdate {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 32px;
+    color: var(--gold);
+    letter-spacing: 0.05em;
+  }
+
+  .star-badge { font-size: 26px; animation: pulse 2s infinite; }
+
+  @keyframes pulse {
+    0%, 100% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.15); opacity: 0.7; }
+  }
+
+  /* ── Section ── */
+  .section {
+    max-width: 900px;
+    margin: 0 auto 70px;
+    padding: 0 40px;
+    opacity: 0;
+    animation: fadeUp 0.7s forwards;
+  }
+  .section.s1 { animation-delay: 0.75s; }
+  .section.s3 { animation-delay: 1.0s; }
+
+  .tag-attend {
+    background: rgba(232,122,159,.1);
+    color: var(--rose);
+    border: 1px solid rgba(232,122,159,.35);
+  }
+
+  .attend-wrap {
+    overflow-x: auto;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    position: relative;
+  }
+
+  /* Frozen first column */
+  .attend-table th.col-session,
+  .attend-table td.col-session {
+    position: sticky;
+    left: 0;
+    z-index: 2;
+    background: #0f0f16;
+  }
+  .attend-table tbody tr:hover td.col-session {
+    background: #131320;
+  }
+  .attend-table th.col-session::after,
+  .attend-table td.col-session::after {
+    content: '';
+    position: absolute;
+    right: 0; top: 0; bottom: 0;
+    width: 1px;
+    background: rgba(50,50,70,.6);
+  }
+
+  /* Modal */
+  .modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,.65);
+    backdrop-filter: blur(4px);
+    z-index: 200;
+    align-items: center;
+    justify-content: center;
+  }
+  .modal-overlay.open { display: flex; }
+
+  .modal-box {
+    background: #16161f;
+    border: 1px solid var(--gold-dim);
+    border-radius: 8px;
+    padding: 28px 32px;
+    max-width: 440px;
+    width: 90%;
+    position: relative;
+    animation: modalIn 0.22s ease;
+  }
+
+  @keyframes modalIn {
+    from { opacity: 0; transform: scale(0.94) translateY(10px); }
+    to   { opacity: 1; transform: scale(1) translateY(0); }
+  }
+
+  .modal-close {
+    position: absolute;
+    top: 14px; right: 16px;
+    background: none;
+    border: none;
+    color: var(--muted);
+    font-size: 20px;
+    cursor: pointer;
+    line-height: 1;
+    transition: color 0.15s;
+  }
+  .modal-close:hover { color: var(--text); }
+
+  .modal-date {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 26px;
+    color: var(--gold);
+    letter-spacing: 0.05em;
+    margin-bottom: 4px;
+  }
+  .modal-session {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 18px;
+  }
+  .modal-count {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 0.12em;
+    margin-bottom: 14px;
+  }
+  .modal-count span {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 20px;
+    color: var(--rose);
+    vertical-align: middle;
+    margin-left: 6px;
+  }
+  .modal-members {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .modal-member {
+    background: rgba(232,201,122,.08);
+    border: 1px solid var(--gold-dim);
+    border-radius: 3px;
+    padding: 4px 11px;
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    color: var(--gold);
+    letter-spacing: 0.06em;
+  }
+  .modal-member.absent {
+    background: rgba(107,104,96,.06);
+    border-color: rgba(107,104,96,.25);
+    color: #2e2e3e;
+  }
+  .event-card { cursor: pointer; }
+
+  .attend-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: 'DM Mono', monospace;
+    font-size: 13px;
+    min-width: 680px;
+    table-layout: fixed;
+  }
+
+  .attend-table thead tr {
+    background: #0f0f16;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .attend-table th {
+    padding: 10px 4px;
+    text-align: center;
+    font-size: 11px;
+    letter-spacing: 0.05em;
+    color: #3d3d52;
+    white-space: nowrap;
+    font-weight: 500;
+    width: 44px;
+  }
+
+  .attend-table th.col-session {
+    text-align: left;
+    padding-left: 14px;
+    width: 90px;
+  }
+
+  .attend-table th.col-count {
+    color: var(--rose);
+    width: 44px;
+  }
+
+  .attend-table tbody tr {
+    border-bottom: 1px solid rgba(50,50,70,.6);
+    transition: background 0.15s;
+  }
+
+  .attend-table tbody tr:last-child { border-bottom: none; }
+  .attend-table tbody tr:hover { background: rgba(255,255,255,.02); }
+
+  .attend-table td {
+    padding: 9px 4px;
+    text-align: center;
+    color: var(--muted);
+    font-size: 13px;
+  }
+
+  .attend-table td.col-session {
+    text-align: left;
+    padding-left: 14px;
+  }
+
+  .sess-date {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 16px;
+    letter-spacing: 0.05em;
+    color: var(--gold);
+    display: block;
+    line-height: 1.2;
+  }
+
+  .phase-group .sess-date { color: var(--cyan); }
+
+  .sess-label {
+    font-size: 12px;
+    color: var(--muted);
+    letter-spacing: 0.05em;
+    white-space: nowrap;
+  }
+
+  .attend-table td.v {
+    color: #6dcf8e;
+    font-size: 14px;
+  }
+
+  .attend-table td.cnt {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 18px;
+    color: var(--rose);
+    letter-spacing: 0.05em;
+  }
+
+  .attend-table td.cnt-full {
+    color: var(--gold);
+  }
+
+  .phase-learn { background: rgba(232,201,122,.02); }
+  .phase-group { background: rgba(122,204,232,.02); }
+
+  .phase-divider td.phase-divider-cell {
+    text-align: center;
+    padding: 7px;
+    font-size: 10px;
+    letter-spacing: 0.25em;
+    color: var(--border);
+    background: #0f0f16;
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .row-full { background: rgba(232,201,122,.05) !important; }
+
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 32px;
+  }
+
+  .section-tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.3em;
+    padding: 5px 12px;
+    border-radius: 2px;
+    text-transform: uppercase;
+  }
+  .tag-learn { background: rgba(232,201,122,.1); color: var(--gold); border: 1px solid var(--gold-dim); }
+  .tag-group { background: rgba(122,204,232,.1); color: var(--cyan); border: 1px solid rgba(122,204,232,.4); }
+  .section-title { font-size: 22px; font-weight: 700; letter-spacing: 0.05em; }
+
+  /* ── Timeline ── */
+  .timeline { position: relative; padding-left: 24px; }
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 8px; bottom: 8px;
+    width: 1px;
+    background: linear-gradient(180deg, var(--gold-dim), transparent);
+  }
+  .timeline.group::before { background: linear-gradient(180deg, rgba(122,204,232,.5), transparent); }
+
+  .event {
+    position: relative;
+    margin-bottom: 18px;
+    opacity: 0;
+    transform: translateX(-10px);
+    transition: opacity 0.4s, transform 0.4s;
+  }
+  .event.visible { opacity: 1; transform: translateX(0); }
+
+  .event::before {
+    content: '';
+    position: absolute;
+    left: -28px; top: 22px;
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    background: var(--gold);
+    border: 1px solid var(--bg);
+    box-shadow: 0 0 8px var(--gold-dim);
+  }
+  .event.group-event::before { background: var(--cyan); box-shadow: 0 0 8px rgba(122,204,232,.4); }
+
+  .event-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 18px 22px;
+    transition: border-color 0.2s, transform 0.2s;
+  }
+  .event-card:hover { border-color: var(--gold-dim); transform: translateX(3px); }
+  .event.group-event .event-card:hover { border-color: rgba(122,204,232,.4); }
+
+  /* Date + Time side by side */
+  .event-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 10px;
+    flex-wrap: wrap;
+  }
+
+  .event-datetime {
+    display: flex;
+    align-items: baseline;
+    gap: 14px;
+    flex-wrap: wrap;
+  }
+
+  .event-date {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 24px;
+    letter-spacing: 0.05em;
+    color: var(--gold);
+    line-height: 1;
+  }
+  .event.group-event .event-date { color: var(--cyan); }
+
+  .event-time {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 20px;
+    letter-spacing: 0.06em;
+    color: var(--muted);
+    line-height: 1;
+  }
+  .event:not(.group-event) .event-time { color: var(--gold-dim); }
+  .event.group-event .event-time { color: rgba(122,204,232,.55); }
+
+  .event-badges { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+
+  .badge {
+    font-size: 11px;
+    padding: 3px 9px;
+    border-radius: 2px;
+    font-family: 'DM Mono', monospace;
+    letter-spacing: 0.05em;
+  }
+  .badge-alert   { background: rgba(232,122,159,.12); color: var(--rose);  border: 1px solid rgba(232,122,159,.35); }
+  .badge-costume { background: rgba(232,201,122,.08); color: var(--gold);  border: 1px solid var(--gold-dim); }
+  .badge-shoe    { background: rgba(122,204,232,.08); color: var(--cyan);  border: 1px solid rgba(122,204,232,.35); }
+
+  .event-location { display: flex; align-items: center; gap: 6px; margin-bottom: 8px; }
+  .location-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--gold-dim); flex-shrink: 0; }
+  .event.group-event .location-dot { background: rgba(122,204,232,.5); }
+
+  .location-link {
+    font-size: 14px;
+    color: var(--muted);
+    text-decoration: none;
+    transition: color 0.2s;
+    font-family: 'DM Mono', monospace;
+    letter-spacing: 0.02em;
+  }
+  .location-link:hover { color: var(--gold); text-decoration: underline; }
+  .event.group-event .location-link:hover { color: var(--cyan); }
+
+  .event-content {
+    font-size: 13px;
+    color: #a09c92;
+    line-height: 1.6;
+    padding-top: 6px;
+    border-top: 1px solid var(--border);
+  }
+  .event-content .highlight { color: var(--text); font-weight: 700; }
+  .tbd { color: var(--muted); font-style: italic; }
+
+  /* Placeholder panels */
+  .placeholder {
+    max-width: 820px;
+    margin: 100px auto;
+    padding: 0 40px;
+    text-align: center;
+    color: var(--muted);
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.2em;
+  }
+  .placeholder .icon { font-size: 36px; opacity: 0.25; margin-bottom: 14px; }
+
+  /* Links panel */
+  .links-panel {
+    max-width: 900px;
+    margin: 40px auto 70px;
+    padding: 0 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+  }
+
+  .links-group-title {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 14px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .link-card {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 16px 20px;
+    text-decoration: none;
+    color: var(--text);
+    transition: border-color 0.2s, transform 0.2s;
+    margin-bottom: 10px;
+  }
+
+  .link-card:hover {
+    border-color: var(--gold-dim);
+    transform: translateX(3px);
+  }
+
+  .link-icon {
+    font-size: 18px;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(232,201,122,.07);
+    border-radius: 4px;
+    flex-shrink: 0;
+    color: var(--gold);
+    font-family: 'DM Mono', monospace;
+  }
+
+  .link-text { flex: 1; }
+
+  .link-name {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 3px;
+  }
+
+  .link-url {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 0.04em;
+  }
+
+  .link-arrow {
+    font-size: 16px;
+    color: var(--gold-dim);
+    flex-shrink: 0;
+  }
+
+  /* Notes panel */
+  .notes-panel {
+    max-width: 900px;
+    margin: 40px auto 70px;
+    padding: 0 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+  }
+
+  .notes-group-title {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 14px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .notes-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 20px 24px;
+    margin-bottom: 12px;
+  }
+
+  .notes-card-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 14px;
+  }
+
+  .notes-icon { font-size: 18px; }
+
+  .notes-card-title {
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    color: var(--text);
+  }
+
+  .fee-grid {
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    overflow: hidden;
+    margin-bottom: 16px;
+  }
+
+  .fee-row {
+    display: grid;
+    grid-template-columns: 1fr 72px;
+    align-items: center;
+    gap: 10px;
+    padding: 11px 14px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .fee-row-last { border-bottom: none; }
+
+  .fee-cell-left {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+  }
+
+  .fee-num {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: var(--muted);
+    letter-spacing: 0.08em;
+    white-space: nowrap;
+  }
+
+  .fee-date {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 16px;
+    letter-spacing: 0.04em;
+    color: var(--cyan);
+  }
+
+  .fee-amount {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 18px;
+    color: var(--gold);
+    letter-spacing: 0.05em;
+    text-align: right;
+    white-space: nowrap;
+  }
+
+  .fee-settle {
+    color: var(--rose);
+  }
+
+  .notes-desc {
+    font-size: 14px;
+    color: #a09c92;
+    line-height: 1.7;
+  }
+
+  .notes-bullets {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .notes-bullet {
+    font-size: 14px;
+    color: #a09c92;
+    line-height: 1.7;
+  }
+
+  .notes-bullet.warn {
+    color: var(--rose);
+    opacity: 0.9;
+  }
+
+  .highlight-text {
+    color: var(--gold);
+    font-weight: 700;
+  }
+
+  .inline-list {
+    color: var(--text);
+    font-size: 12px;
+  }
+
+  .ref-links {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .ref-link {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 14px;
+    background: rgba(232,201,122,.04);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    text-decoration: none;
+    transition: border-color 0.2s, transform 0.2s;
+  }
+
+  .ref-link:hover {
+    border-color: var(--gold-dim);
+    transform: translateX(3px);
+  }
+
+  .ref-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .ref-dot.gold { background: var(--gold); box-shadow: 0 0 6px var(--gold-dim); }
+
+  .ref-label {
+    flex: 1;
+    font-size: 13px;
+    color: var(--text);
+    letter-spacing: 0.03em;
+  }
+
+  .ref-arr {
+    font-size: 14px;
+    color: var(--gold-dim);
+  }
+
+  /* Checklist */
+  .checklist-section {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 10px;
+    align-items: flex-start;
+  }
+
+  .checklist-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    padding: 3px 8px;
+    border-radius: 2px;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  .checklist-label.must {
+    background: rgba(232,201,122,.1);
+    color: var(--gold);
+    border: 1px solid var(--gold-dim);
+  }
+
+  .checklist-label.opt {
+    background: rgba(107,104,96,.08);
+    color: var(--muted);
+    border: 1px solid rgba(107,104,96,.3);
+  }
+
+  .checklist-items {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    flex: 1;
+  }
+
+  .checklist-item {
+    font-size: 14px;
+    color: #a09c92;
+    line-height: 1.5;
+  }
+
+  .checklist-item.muted {
+    color: var(--muted);
+  }
+
+  /* Outfit grid */
+  .outfit-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .outfit-row {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 10px 14px;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+  }
+
+  .outfit-label {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 15px;
+    letter-spacing: 0.08em;
+    flex-shrink: 0;
+    width: 72px;
+    text-align: center;
+    padding: 3px 6px;
+    border-radius: 3px;
+    white-space: nowrap;
+  }
+
+  .white-label {
+    background: rgba(240,236,224,.08);
+    color: #e8e4d8;
+    border: 1px solid rgba(240,236,224,.25);
+  }
+
+  .mix-label {
+    background: linear-gradient(90deg, rgba(240,236,224,.06) 0%, rgba(20,20,20,.5) 100%);
+    color: #c8c4b8;
+    border: 1px solid rgba(200,196,184,.2);
+  }
+
+  .black-label {
+    background: rgba(30,30,30,.8);
+    color: #888;
+    border: 1px solid rgba(80,80,80,.4);
+  }
+
+  .outfit-members {
+    font-size: 13px;
+    color: #a09c92;
+    letter-spacing: 0.04em;
+    line-height: 1.5;
+  }
+
+  /* Notes footer note */
+  .notes-note {
+    margin-top: 14px;
+    padding: 10px 14px;
+    border-left: 2px solid var(--gold-dim);
+    font-size: 14px;
+    color: #a09c92;
+    line-height: 1.7;
+  }
+
+  /* Team panel */
+  .team-panel {
+    max-width: 900px;
+    margin: 40px auto 70px;
+    padding: 0 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+  }
+
+  .team-table-wrap {
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    overflow: hidden;
+  }
+
+  .team-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: 'DM Mono', monospace;
+  }
+
+  .team-table thead tr {
+    background: #0f0f16;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .team-table th {
+    padding: 10px 16px;
+    font-size: 10px;
+    letter-spacing: 0.25em;
+    color: var(--muted);
+    text-align: left;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+
+  .t-th-num { width: 64px; }
+  .t-th-name { width: 100px; }
+
+  .team-table tbody tr {
+    border-bottom: 1px solid rgba(50,50,70,.5);
+    transition: background 0.15s;
+  }
+  .team-table tbody tr:last-child { border-bottom: none; }
+  .team-table tbody tr:hover { background: rgba(255,255,255,.025); }
+
+  .t-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 16px;
+    color: var(--gold-dim);
+    letter-spacing: 0.1em;
+    padding: 12px 16px;
+    text-align: left;
+  }
+
+  .t-name {
+    font-size: 14px;
+    color: var(--text);
+    font-weight: 700;
+    padding: 12px 16px;
+    letter-spacing: 0.05em;
+  }
+
+  .t-role {
+    font-size: 13px;
+    color: var(--cyan);
+    padding: 12px 16px;
+    letter-spacing: 0.05em;
+    opacity: 0.8;
+  }
+
+  footer {
+    text-align: center;
+    padding: 40px;
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    color: var(--muted);
+    border-top: 1px solid var(--border);
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(18px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  @media (max-width: 600px) {
+    header { padding: 50px 24px 30px; }
+    .tab-bar-wrap, .section, .final-banner { padding: 0 20px; }
+    .tab-btn { padding: 10px 14px; font-size: 10px; }
+    .event-card { padding: 14px 16px; }
+    .event-date { font-size: 20px; }
+    .event-time { font-size: 17px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <p class="header-label">2026 Dance Project</p>
+  <h1>Girls<br><span class="gold">Never Die</span></h1>
+  <p class="header-quote">準備好展開這段旅程了嗎~?<br>女孩們一起加油吧 💙</p>
+  <div class="header-divider"></div>
+</header>
+
+<!-- Tab bar -->
+<div class="tab-bar-wrap">
+  <div class="tab-bar">
+    <button class="tab-btn active" data-tab="schedule">舞蹈行程表</button>
+    <button class="tab-btn" data-tab="team">舞團資訊</button>
+    <button class="tab-btn" data-tab="notes">注意事項</button>
+    <button class="tab-btn" data-tab="members">相關連結</button>
+  </div>
+</div>
+
+<!-- ═══ TAB: 舞蹈行程表 ═══ -->
+<div id="panel-schedule" class="tab-panel active">
+
+  <div class="final-banner">
+    <div class="final-banner-inner">
+      <div>
+        <p class="fdate"><span style="font-family:'Bebas Neue',sans-serif;font-size:30px;letter-spacing:0.05em;color:var(--gold-dim);display:block;margin-bottom:2px;">正式拍攝日</span>2026 / 05 / 09（六）</p>
+        <p style="font-family:'DM Mono',monospace;font-size:13px;color:var(--muted);margin-top:6px;letter-spacing:0.05em;line-height:1.8;">📍 整裝地點待定 · 拍攝地點待定<br>整裝、維持好心情，拍攝順利！</p>
+      </div>
+      <div class="star-badge">✨</div>
+    </div>
+  </div>
+
+  <!-- 學舞組 -->
+  <section class="section s1">
+    <div class="section-header">
+      <span class="section-tag tag-learn">Phase 01</span>
+      <h2 class="section-title">學舞組時間表</h2>
+    </div>
+    <div class="timeline">
+
+      <div class="event">
+        <div class="event-card">
+          <div class="event-top">
+            <div class="event-datetime">
+              <span class="event-date">2026 / 02 / 26（四）</span>
+              <span class="event-time">19:30 – 21:30</span>
+            </div>
+          </div>
+          <div class="event-location">
+            <div class="location-dot"></div>
+            <a class="location-link" href="https://maps.app.goo.gl/5Hq68NRvjS3J3NQo6" target="_blank">小巨蛋 FreeStyle G ↗</a>
+          </div>
+          <div class="event-content">▶ <span class="highlight">副歌 B 段</span></div>
+        </div>
+      </div>
+
+      <div class="event">
+        <div class="event-card">
+          <div class="event-top">
+            <div class="event-datetime">
+              <span class="event-date">2026 / 03 / 04（三）</span>
+              <span class="event-time">19:30 – 21:30</span>
+            </div>
+          </div>
+          <div class="event-location">
+            <div class="location-dot"></div>
+            <a class="location-link" href="https://maps.app.goo.gl/4LByF1tGjRS1Rofv7" target="_blank">WDS A 教室 ↗</a>
+          </div>
+          <div class="event-content">▶ <span class="highlight">副歌 D / F / I</span>，複習 B</div>
+        </div>
+      </div>
+
+      <div class="event">
+        <div class="event-card">
+          <div class="event-top">
+            <div class="event-datetime">
+              <span class="event-date">2026 / 03 / 07（六）</span>
+              <span class="event-time">14:00 – 16:00</span>
+            </div>
+          </div>
+          <div class="event-location">
+            <div class="location-dot"></div>
+            <a class="location-link" href="https://maps.app.goo.gl/4LByF1tGjRS1Rofv7" target="_blank">WDS A 教室 ↗</a>
+          </div>
+          <div class="event-content">▶ <span class="highlight">副歌 J</span>，複習 B / I / D / F</div>
+        </div>
+      </div>
+
+      <div class="event">
+        <div class="event-card">
+          <div class="event-top">
+            <div class="event-datetime">
+              <span class="event-date">2026 / 03 / 17（二）</span>
+              <span class="event-time">19:30 – 21:30</span>
+            </div>
+          </div>
+          <div class="event-location">
+            <div class="location-dot"></div>
+            <a class="location-link" href="https://maps.app.goo.gl/nk3urVDcp2rdacQ99" target="_blank">E1 Studio 重慶 ↗</a>
+          </div>
+          <div class="event-content">▶ <span class="highlight">C 段</span>，複習所有副歌段</div>
+        </div>
+      </div>
+
+      <div class="event">
+        <div class="event-card">
+          <div class="event-top">
+            <div class="event-datetime">
+              <span class="event-date">2026 / 03 / 25（三）</span>
+              <span class="event-time">19:30 – 21:30</span>
+            </div>
+          </div>
+          <div class="event-location">
+            <div class="location-dot"></div>
+            <a class="location-link" href="https://maps.app.goo.gl/nk3urVDcp2rdacQ99" target="_blank">E1 Studio 重慶 ↗</a>
+          </div>
+          <div class="event-content">▶ <span class="highlight">主歌練習</span> / 舞蹈細節確認 / 補課</div>
+        </div>
+      </div>
+
+      <div class="event">
+        <div class="event-card">
+          <div class="event-top">
+            <div class="event-datetime">
+              <span class="event-date">2026 / 03 / 29（日）</span>
+              <span class="event-time">19:00 – 21:00</span>
+            </div>
+          </div>
+          <div class="event-location">
+            <div class="location-dot"></div>
+            <a class="location-link" href="https://maps.app.goo.gl/nk3urVDcp2rdacQ99" target="_blank">E1 Studio 重慶 ↗</a>
+          </div>
+          <div class="event-content">▶ 舞蹈細節確認 / <span class="highlight">補課</span></div>
+        </div>
+      </div>
+
+      <div class="event">
+        <div class="event-card">
+          <div class="event-top">
+            <div class="event-datetime">
+              <span class="event-date">2026 / 03 / 31（二）</span>
+              <span class="event-time">19:30 – 21:30</span>
+            </div>
+          </div>
+          <div class="event-location">
+            <div class="location-dot"></div>
+            <a class="location-link" href="https://maps.app.goo.gl/qQAhSkwvZewAwzG5A" target="_blank">Practice Everything 東門 Z06 ↗</a>
+          </div>
+          <div class="event-content">▶ <span class="highlight">總複習</span> / 補課</div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- 團練 -->
+  <section class="section s2">
+    <div class="section-header">
+      <span class="section-tag tag-group">Phase 02</span>
+      <h2 class="section-title">團練時間表</h2>
+    </div>
+    <div class="timeline group">
+
+      <div class="event group-event">
+        <div class="event-card">
+          <div class="event-top">
+            <div class="event-datetime">
+              <span class="event-date">2026 / 04 / 07（二）</span>
+              <span class="event-time">19:30 – 21:30</span>
+            </div>
+          </div>
+          <div class="event-location">
+            <div class="location-dot"></div>
+            <a class="location-link" href="https://maps.app.goo.gl/Ze27PxsFNTotuYAD7" target="_blank">Sunny Side 松江 ↗</a>
+          </div>
+          <div class="event-content">▶ <span class="highlight">排隊形-1</span>、熟悉舞序</div>
+        </div>
+      </div>
+
+      <div class="event group-event">
+        <div class="event-card">
+          <div class="event-top">
+            <div class="event-datetime">
+              <span class="event-date">2026 / 04 / 11（六）</span>
+              <span class="event-time">14:00 – 16:00</span>
+            </div>
+            <div class="event-badges"><span class="badge badge-alert">📢 時間調整</span></div>
+          </div>
+          <div class="event-location">
+            <div class="location-dot"></div>
+            <a class="location-link" href="https://maps.app.goo.gl/nk3urVDcp2rdacQ99" target="_blank">E1 Studio 重慶 ↗</a>
+          </div>
+          <div class="event-content">▶ 確認舞蹈重點、熟悉舞序</div>
+        </div>
+      </div>
+
+      <div class="event group-event">
+        <div class="event-card">
+          <div class="event-top">
+            <div class="event-datetime">
+              <span class="event-date">2026 / 04 / 14（二）</span>
+              <span class="event-time">19:30 – 21:30</span>
+            </div>
+          </div>
+          <div class="event-location">
+            <div class="location-dot"></div>
+            <a class="location-link" href="https://maps.app.goo.gl/h1WZV1d7N8xC5mjd7" target="_blank">Practice Everything 西門 Z16 ↗</a>
+          </div>
+          <div class="event-content">▶ 複習隊形-1、<span class="highlight">排隊形-2</span>、確認舞蹈重點、熟悉舞序</div>
+        </div>
+      </div>
+
+      <div class="event group-event">
+        <div class="event-card">
+          <div class="event-top">
+            <div class="event-datetime">
+              <span class="event-date">2026 / 04 / 18（六）</span>
+              <span class="event-time">14:00 – 17:00</span>
+            </div>
+            <div class="event-badges"><span class="badge badge-costume">👕 服裝確認日</span></div>
+          </div>
+          <div class="event-location">
+            <div class="location-dot"></div>
+            <a class="location-link" href="https://maps.app.goo.gl/bFdvtcVkJpsNapgPA" target="_blank">拼舞室 401 ↗</a>
+          </div>
+          <div class="event-content">▶ 複習隊形、雕舞/整齊度、<span class="highlight">拍個人&amp;團練影片</span></div>
+        </div>
+      </div>
+
+      <div class="event group-event">
+        <div class="event-card">
+          <div class="event-top">
+            <div class="event-datetime">
+              <span class="event-date">2026 / 04 / 22（三）</span>
+              <span class="event-time">19:30 – 21:30</span>
+            </div>
+            <div class="event-badges"><span class="badge badge-costume">👕 服裝確認日</span></div>
+          </div>
+          <div class="event-location">
+            <div class="location-dot"></div>
+            <a class="location-link" href="https://maps.app.goo.gl/XH7r4aDhpMvsMpJNA" target="_blank">緩緩動空間 ↗</a>
+          </div>
+          <div class="event-content">▶ 隊形練熟、雕舞/整齊度、<span class="highlight">練背鏡</span>、拍個人&amp;團練影片</div>
+        </div>
+      </div>
+
+      <div class="event group-event">
+        <div class="event-card">
+          <div class="event-top">
+            <div class="event-datetime">
+              <span class="event-date">2026 / 04 / 25（六）</span>
+              <span class="event-time">14:00 – 17:00</span>
+            </div>
+            <div class="event-badges"><span class="badge badge-costume">👕 服裝確認日</span></div>
+          </div>
+          <div class="event-location">
+            <div class="location-dot"></div>
+            <a class="location-link" href="https://maps.app.goo.gl/bFdvtcVkJpsNapgPA" target="_blank">拼舞室 401 ↗</a>
+          </div>
+          <div class="event-content">▶ 練背鏡、雕舞/整齊度、熟悉再熟悉、<span class="highlight">拍個人&amp;團練影片</span></div>
+        </div>
+      </div>
+
+      <div class="event group-event">
+        <div class="event-card">
+          <div class="event-top">
+            <div class="event-datetime">
+              <span class="event-date">2026 / 04 / 30（四）</span>
+              <span class="event-time">19:30 – 21:30</span>
+            </div>
+            <div class="event-badges"><span class="badge badge-costume">👕 帶拍攝服裝來練習</span></div>
+          </div>
+          <div class="event-location">
+            <div class="location-dot"></div>
+            <a class="location-link" href="https://maps.app.goo.gl/XH7r4aDhpMvsMpJNA" target="_blank">緩緩動空間 ↗</a>
+          </div>
+          <div class="event-content">▶ 練背鏡、雕舞/整齊度、熟悉再熟悉、<span class="highlight">拍個人&amp;團練影片</span></div>
+        </div>
+      </div>
+
+      <div class="event group-event">
+        <div class="event-card">
+          <div class="event-top">
+            <div class="event-datetime">
+              <span class="event-date">2026 / 05 / 05（二）</span>
+              <span class="event-time">19:30 – 21:30</span>
+            </div>
+            <div class="event-badges"><span class="badge badge-shoe">🥾 帶拍攝鞋子練習</span></div>
+          </div>
+          <div class="event-location">
+            <div class="location-dot"></div>
+            <a class="location-link" href="https://maps.app.goo.gl/kzdh5R6NmGMPwyM46" target="_blank">io dynamic ↗</a>
+          </div>
+          <div class="event-content">▶ 練背鏡、維持舞感、<span class="highlight">拍團練影片</span></div>
+        </div>
+      </div>
+
+      <div class="event group-event">
+        <div class="event-card">
+          <div class="event-top">
+            <div class="event-datetime">
+              <span class="event-date">2026 / 05 / 07（四）</span>
+              <span class="event-time">19:00 – 22:00</span>
+            </div>
+            <div class="event-badges">
+              <span class="badge badge-alert">📢 時間調整</span>
+              <span class="badge badge-shoe">🥾 帶拍攝鞋子練習</span>
+            </div>
+          </div>
+          <div class="event-location">
+            <div class="location-dot"></div>
+            <a class="location-link" href="https://maps.app.goo.gl/kzdh5R6NmGMPwyM46" target="_blank">io dynamic ↗</a>
+          </div>
+          <div class="event-content">▶ 練背鏡、維持舞感、<span class="highlight">拍團練影片</span></div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- 出席記錄 -->
+  <section class="section s3">
+    <div class="section-header">
+      <span class="section-tag tag-attend">出席記錄</span>
+      <h2 class="section-title">練習出席表</h2>
+    </div>
+    <div class="attend-wrap">
+      <table class="attend-table">
+        <thead>
+          <tr>
+            <th class="col-session">日期 / 場次</th>
+            <th>Hsuan</th>
+            <th>Peggy</th>
+            <th>Annie</th>
+            <th>香雞</th>
+            <th>歐歐</th>
+            <th>Winnie</th>
+            <th>王王</th>
+            <th>翊瑄</th>
+            <th>佩詩</th>
+            <th>律</th>
+            <th>璨</th>
+            <th>欣瑜</th>
+            <th class="col-count">人數</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="phase-learn">
+            <td class="col-session"><span class="sess-date">02/26</span><span class="sess-label">學舞 練1</span></td>
+            <td class="v">✓</td><td class="v">✓</td><td class="v">✓</td><td></td><td></td><td class="v">✓</td><td></td><td class="v">✓</td><td class="v">✓</td><td class="v">✓</td><td class="v">✓</td><td class="v">✓</td>
+            <td class="col-count cnt">9</td>
+          </tr>
+          <tr class="phase-learn">
+            <td class="col-session"><span class="sess-date">03/04</span><span class="sess-label">學舞 練2</span></td>
+            <td class="v">✓</td><td></td><td></td><td></td><td></td><td class="v">✓</td><td></td><td class="v">✓</td><td class="v">✓</td><td class="v">✓</td><td class="v">✓</td><td class="v">✓</td>
+            <td class="col-count cnt">7</td>
+          </tr>
+          <tr class="phase-learn">
+            <td class="col-session"><span class="sess-date">03/07</span><span class="sess-label">學舞 練3</span></td>
+            <td class="v">✓</td><td></td><td></td><td></td><td></td><td class="v">✓</td><td></td><td class="v">✓</td><td class="v">✓</td><td class="v">✓</td><td class="v">✓</td><td class="v">✓</td>
+            <td class="col-count cnt">7</td>
+          </tr>
+          <tr class="phase-learn">
+            <td class="col-session"><span class="sess-date">03/17</span><span class="sess-label">學舞 練4</span></td>
+            <td class="v">✓</td><td></td><td class="v">✓</td><td class="v">✓</td><td></td><td></td><td class="v">✓</td><td class="v">✓</td><td class="v">✓</td><td></td><td class="v">✓</td><td class="v">✓</td>
+            <td class="col-count cnt">8</td>
+          </tr>
+          <tr class="phase-learn">
+            <td class="col-session"><span class="sess-date">03/25</span><span class="sess-label">學舞 練5</span></td>
+            <td class="v">✓</td><td class="v">✓</td><td class="v">✓</td><td></td><td></td><td class="v">✓</td><td></td><td class="v">✓</td><td class="v">✓</td><td class="v">✓</td><td class="v">✓</td><td class="v">✓</td>
+            <td class="col-count cnt">9</td>
+          </tr>
+          <tr class="phase-learn">
+            <td class="col-session"><span class="sess-date">03/29</span><span class="sess-label">學舞 練6</span></td>
+            <td class="v">✓</td><td></td><td></td><td></td><td></td><td class="v">✓</td><td></td><td class="v">✓</td><td class="v">✓</td><td class="v">✓</td><td class="v">✓</td><td class="v">✓</td>
+            <td class="col-count cnt">7</td>
+          </tr>
+          <tr class="phase-learn">
+            <td class="col-session"><span class="sess-date">03/31</span><span class="sess-label">學舞 練7</span></td>
+            <td class="v">✓</td><td></td><td class="v">✓</td><td class="v">✓</td><td></td><td></td><td class="v">✓</td><td class="v">✓</td><td class="v">✓</td><td></td><td class="v">✓</td><td class="v">✓</td>
+            <td class="col-count cnt">8</td>
+          </tr>
+          <tr class="phase-divider"><td colspan="14" class="phase-divider-cell">— 團練開始 —</td></tr>
+          <tr class="phase-group">
+            <td class="col-session"><span class="sess-date">04/07</span><span class="sess-label">團練 1</span></td>
+            <td class="v">✓</td><td class="v">✓</td><td class="v">✓</td><td class="v">✓</td><td class="v">✓</td><td></td><td class="v">✓</td><td></td><td></td><td></td><td class="v">✓</td><td class="v">✓</td>
+            <td class="col-count cnt">8</td>
+          </tr>
+          <tr class="phase-group">
+            <td class="col-session"><span class="sess-date">04/11</span><span class="sess-label">團練 2</span></td>
+            <td class="v">✓</td><td class="v">✓</td><td></td><td></td><td class="v">✓</td><td></td><td></td><td></td><td class="v">✓</td><td class="v">✓</td><td class="v">✓</td><td class="v">✓</td>
+            <td class="col-count cnt">7</td>
+          </tr>
+          <tr class="phase-group">
+            <td class="col-session"><span class="sess-date">04/14</span><span class="sess-label">團練 3</span></td>
+            <td class="v">✓</td><td class="v">✓</td><td class="v">✓</td><td class="v">✓</td><td class="v">✓</td><td></td><td class="v">✓</td><td class="v">✓</td><td class="v">✓</td><td></td><td class="v">✓</td><td class="v">✓</td>
+            <td class="col-count cnt">10</td>
+          </tr>
+          <tr class="phase-group">
+            <td class="col-session"><span class="sess-date">04/18</span><span class="sess-label">團練 4</span></td>
+            <td class="v">✓</td><td class="v">✓</td><td class="v">✓</td><td class="v">✓</td><td class="v">✓</td><td class="v">✓</td><td class="v">✓</td><td class="v">✓</td><td></td><td class="v">✓</td><td></td><td class="v">✓</td>
+            <td class="col-count cnt">10</td>
+          </tr>
+          <tr class="phase-group">
+            <td class="col-session"><span class="sess-date">04/22</span><span class="sess-label">團練 5</span></td>
+            <td class="v">✓</td><td class="v">✓</td><td class="v">✓</td><td class="v">✓</td><td class="v">✓</td><td class="v">✓</td><td></td><td class="v">✓</td><td class="v">✓</td><td class="v">✓</td><td class="v">✓</td><td class="v">✓</td>
+            <td class="col-count cnt">11</td>
+          </tr>
+          <tr class="phase-group">
+            <td class="col-session"><span class="sess-date">04/25</span><span class="sess-label">團練 6</span></td>
+            <td class="v">✓</td><td class="v">✓</td><td></td><td class="v">✓</td><td class="v">✓</td><td class="v">✓</td><td class="v">✓</td><td class="v">✓</td><td class="v">✓</td><td class="v">✓</td><td class="v">✓</td><td class="v">✓</td>
+            <td class="col-count cnt">11</td>
+          </tr>
+          <tr class="phase-group">
+            <td class="col-session"><span class="sess-date">04/30</span><span class="sess-label">團練 7</span></td>
+            <td class="v">✓</td><td class="v">✓</td><td class="v">✓</td><td class="v">✓</td><td class="v">✓</td><td class="v">✓</td><td class="v">✓</td><td class="v">✓</td><td></td><td class="v">✓</td><td class="v">✓</td><td class="v">✓</td>
+            <td class="col-count cnt">11</td>
+          </tr>
+          <tr class="phase-group">
+            <td class="col-session"><span class="sess-date">05/05</span><span class="sess-label">團練 8</span></td>
+            <td class="v">✓</td><td class="v">✓</td><td class="v">✓</td><td class="v">✓</td><td class="v">✓</td><td></td><td class="v">✓</td><td class="v">✓</td><td class="v">✓</td><td></td><td class="v">✓</td><td class="v">✓</td>
+            <td class="col-count cnt">10</td>
+          </tr>
+          <tr class="phase-group row-full">
+            <td class="col-session"><span class="sess-date">05/07</span><span class="sess-label">團練 9</span></td>
+            <td class="v">✓</td><td class="v">✓</td><td class="v">✓</td><td class="v">✓</td><td class="v">✓</td><td class="v">✓</td><td class="v">✓</td><td class="v">✓</td><td class="v">✓</td><td class="v">✓</td><td class="v">✓</td><td class="v">✓</td>
+            <td class="col-count cnt cnt-full">12</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+</div><!-- end panel-schedule -->
+
+<!-- ═══ TAB: 相關連結 ═══ -->
+<div id="panel-members" class="tab-panel">
+  <div class="links-panel">
+
+    <div class="links-group">
+      <div class="links-group-title">練習相關</div>
+      <a class="link-card" href="https://youtu.be/NOu-MoRQ2KQ" target="_blank">
+        <div class="link-icon">▶</div>
+        <div class="link-text">
+          <div class="link-name">隊形參考影片</div>
+          <div class="link-url">youtu.be/NOu-MoRQ2KQ</div>
+        </div>
+        <div class="link-arrow">↗</div>
+      </a>
+      <a class="link-card" href="https://youtu.be/r94oIAZJoDc" target="_blank">
+        <div class="link-icon">▶</div>
+        <div class="link-text">
+          <div class="link-name">原版參考影片</div>
+          <div class="link-url">youtu.be/r94oIAZJoDc</div>
+        </div>
+        <div class="link-arrow">↗</div>
+      </a>
+      <a class="link-card" href="https://docs.google.com/spreadsheets/d/1Hj1x0IOPbGO4YjGb7MqkeRV6Dszm91-ZWmIoXVkp0tw/edit?gid=663545547#gid=663545547" target="_blank">
+        <div class="link-icon">📊</div>
+        <div class="link-text">
+          <div class="link-name">歌曲甘特圖</div>
+          <div class="link-url">Google Sheets</div>
+        </div>
+        <div class="link-arrow">↗</div>
+      </a>
+      <a class="link-card" href="https://docs.google.com/presentation/d/1E5qg3I2Ba8RuUzvVlMsNJpZSjipgeDEktTF_ZBjwFzc/edit" target="_blank">
+        <div class="link-icon">📋</div>
+        <div class="link-text">
+          <div class="link-name">隊形表</div>
+          <div class="link-url">Google Slides</div>
+        </div>
+        <div class="link-arrow">↗</div>
+      </a>
+      <a class="link-card" href="https://drive.google.com/file/d/1JFSDp9Dao07ATUQGf1FCnyPkFNMDvJAX/view" target="_blank">
+        <div class="link-icon">📄</div>
+        <div class="link-text">
+          <div class="link-name">隊形表 PDF</div>
+          <div class="link-url">Google Drive</div>
+        </div>
+        <div class="link-arrow">↗</div>
+      </a>
+    </div>
+
+    <div class="links-group">
+      <div class="links-group-title">團務相關</div>
+      <a class="link-card" href="https://docs.google.com/spreadsheets/d/1Hj1x0IOPbGO4YjGb7MqkeRV6Dszm91-ZWmIoXVkp0tw/edit?pli=1&gid=803335324#gid=803335324" target="_blank">
+        <div class="link-icon">💰</div>
+        <div class="link-text">
+          <div class="link-name">團體帳務明細表</div>
+          <div class="link-url">Google Sheets</div>
+        </div>
+        <div class="link-arrow">↗</div>
+      </a>
+      <a class="link-card" href="https://join.settleup.app/3SvW8iUzPcxnDOlSo1pF" target="_blank">
+        <div class="link-icon">🔗</div>
+        <div class="link-text">
+          <div class="link-name">分帳系統</div>
+          <div class="link-url">settleup.app</div>
+        </div>
+        <div class="link-arrow">↗</div>
+      </a>
+    </div>
+
+  </div>
+</div>
+
+<!-- ═══ TAB: 注意事項 ═══ -->
+<div id="panel-notes" class="tab-panel">
+  <div class="notes-panel">
+
+    <!-- 團費相關 -->
+    <div class="notes-group">
+      <div class="notes-group-title">團費相關</div>
+
+      <div class="notes-card">
+        <div class="notes-card-header">
+          <span class="notes-icon">🏦</span>
+          <span class="notes-card-title">團費繳交</span>
+        </div>
+        <div class="fee-grid">
+          <div class="fee-row">
+            <div class="fee-cell-left">
+              <div class="fee-num">第一次</div>
+              <div class="fee-date">2026 / 02 / 08（日）前</div>
+            </div>
+            <div class="fee-amount">NT$ 1,000</div>
+          </div>
+          <div class="fee-row">
+            <div class="fee-cell-left">
+              <div class="fee-num">第二次</div>
+              <div class="fee-date">2026 / 03 / 29（日）前</div>
+            </div>
+            <div class="fee-amount">NT$ 1,000</div>
+          </div>
+          <div class="fee-row">
+            <div class="fee-cell-left">
+              <div class="fee-num">第三次</div>
+              <div class="fee-date">2026 / 04 / 26（日）前</div>
+            </div>
+            <div class="fee-amount">NT$ 1,000</div>
+          </div>
+          <div class="fee-row fee-row-last">
+            <div class="fee-cell-left">
+              <div class="fee-num">第四次</div>
+              <div class="fee-date">2026 / 05 / 31（日）前</div>
+            </div>
+            <div class="fee-amount fee-settle">結清</div>
+          </div>
+        </div>
+        <div class="notes-bullets">
+          <div class="notes-bullet">🔹 預繳金額多退少補，每次的團費運用記錄於「團體帳務明細表」中</div>
+          <div class="notes-bullet">🔹 團費主要用途：<span class="inline-list">① 練習教室租借 &nbsp;② 治裝教室租借 &nbsp;③ 拍攝費</span></div>
+          <div class="notes-bullet">🔹 預繳團費可中途結清，結清請記得跟仙仙說！</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 出席相關 -->
+    <div class="notes-group">
+      <div class="notes-group-title">出席相關</div>
+
+      <div class="notes-card">
+        <div class="notes-card-header">
+          <span class="notes-icon">💰</span>
+          <span class="notes-card-title">教室費用計算方式</span>
+        </div>
+        <p class="notes-desc">每次團練的場地費由「當天出席的成員」平均分攤</p>
+      </div>
+
+      <div class="notes-card">
+        <div class="notes-card-header">
+          <span class="notes-icon">💁</span>
+          <span class="notes-card-title">請假規則</span>
+        </div>
+        <div class="notes-bullets">
+          <div class="notes-bullet">🔹 會依出席人數和教室取消規定，評估是否需要換教室或取消該次練習</div>
+          <div class="notes-bullet">🔹 請假請於團練 <span class="highlight-text">5天前</span> 告知</div>
+          <div class="notes-bullet warn">🔹 未在時限內請假，仍需支付當天教室費用唷～請各位特別留意</div>
+        </div>
+      </div>
+
+      <div class="notes-card">
+        <div class="notes-card-header">
+          <span class="notes-icon">📝</span>
+          <span class="notes-card-title">練習留意</span>
+        </div>
+        <div class="checklist-section">
+          <div class="checklist-label must">必備</div>
+          <div class="checklist-items">
+            <div class="checklist-item">💧 充足的水</div>
+            <div class="checklist-item">👟 舒適寬鬆運動服</div>
+            <div class="checklist-item">👟 合適的運動鞋（室內專用運動鞋更好～）</div>
+            <div class="checklist-item">🦺 個人護具</div>
+          </div>
+        </div>
+        <div class="checklist-section">
+          <div class="checklist-label opt">選備</div>
+          <div class="checklist-items">
+            <div class="checklist-item muted">🤍 毛巾</div>
+            <div class="checklist-item muted">🤍 乾淨衣服</div>
+          </div>
+        </div>
+        <div class="notes-note" style="margin-top:14px;">
+          練習前請避免吃太飽（建議至少提前 <span class="highlight-text">1 小時</span> 吃完）來不及的話記得下午 / 下班吃一下小點心補充～
+        </div>
+      </div>
+    </div>
+    <div class="notes-group">
+      <div class="notes-group-title">練習相關</div>
+
+      <div class="notes-card">
+        <div class="notes-card-header">
+          <span class="notes-icon">💃</span>
+          <span class="notes-card-title">學舞參考版本</span>
+        </div>
+        <div class="ref-links">
+          <a class="ref-link" href="https://youtu.be/r94oIAZJoDc" target="_blank">
+            <span class="ref-dot gold"></span>
+            <span class="ref-label">原版參考影片</span>
+            <span class="ref-arr">↗</span>
+          </a>
+          <a class="ref-link" href="https://youtu.be/5IV6PUUxDAU" target="_blank">
+            <span class="ref-dot gold"></span>
+            <span class="ref-label">24人練習室版本（鏡面版）</span>
+            <span class="ref-arr">↗</span>
+          </a>
+          <a class="ref-link" href="https://youtu.be/NOu-MoRQ2KQ" target="_blank">
+            <span class="ref-dot gold"></span>
+            <span class="ref-label">隊形參考影片</span>
+            <span class="ref-arr">↗</span>
+          </a>
+        </div>
+        <div class="notes-bullets" style="margin-top:12px;">
+          <div class="notes-bullet">🔹 12人的舞台版本 / 個人直拍（如果有）可以交互參考</div>
+          <div class="notes-bullet">🔹 舞團版本僅供參考隊形部份</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 服裝相關 -->
+    <div class="notes-group">
+      <div class="notes-group-title">服裝相關</div>
+
+      <div class="notes-card">
+        <div class="notes-card-header">
+          <span class="notes-icon">👗</span>
+          <span class="notes-card-title">拍攝服裝風格</span>
+        </div>
+        <p class="notes-desc" style="color:var(--text); font-size:14px; font-weight:700; letter-spacing:0.08em;">黑 + 白 &nbsp;·&nbsp; 乾淨率性風 / 類運動風</p>
+      </div>
+
+      <div class="notes-card">
+        <div class="notes-card-header">
+          <span class="notes-icon">👕</span>
+          <span class="notes-card-title">服裝分配</span>
+        </div>
+        <div class="outfit-grid">
+          <div class="outfit-row">
+            <div class="outfit-label white-label">全白</div>
+            <div class="outfit-members">Hsuan、歐歐、Winnie、翊瑄</div>
+          </div>
+          <div class="outfit-row">
+            <div class="outfit-label mix-label">黑＋白</div>
+            <div class="outfit-members">啪嘰、佩詩、香雞、Annie</div>
+          </div>
+          <div class="outfit-row">
+            <div class="outfit-label black-label">全黑</div>
+            <div class="outfit-members">欣瑜、王王、律、璨</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="notes-card">
+        <div class="notes-card-header">
+          <span class="notes-icon">🎬</span>
+          <span class="notes-card-title">風格參考</span>
+        </div>
+        <div class="ref-links" style="margin-bottom:14px;">
+          <a class="ref-link" href="https://youtu.be/JHRdxQvu7uM" target="_blank">
+            <span class="ref-dot gold"></span>
+            <span class="ref-label">服裝風格參考 1</span>
+            <span class="ref-arr">↗</span>
+          </a>
+          <a class="ref-link" href="https://youtu.be/xXOFtBsnEFA" target="_blank">
+            <span class="ref-dot gold"></span>
+            <span class="ref-label">服裝風格參考 2</span>
+            <span class="ref-arr">↗</span>
+          </a>
+        </div>
+        <div class="notes-bullets">
+          <div class="notes-bullet">🔹 材質：選擇較硬挺的，以免看起來像去健身房 🤪</div>
+          <div class="notes-bullet">🔹 顏色以「<span class="highlight-text">正黑</span>」及「<span class="highlight-text">正白</span>」為主</div>
+          <div class="notes-bullet">🔹 圖案可接受到灰色，盡量不要面積太大或有太花俏的圖案</div>
+          <div class="notes-bullet">🔹 可以另外找配件來搭配（如「銀色金屬」配飾、頭髮綁白色緞帶等）</div>
+          <div class="notes-bullet">🔹 全黑的女孩如果不介意的話可以露一點皮膚，比較不會在畫面上看起來太黑</div>
+          <div class="notes-bullet">🔹「黑＋白」組合的夥伴不限上下身搭配，但可以錯開更好～（可在群組或私下討論一下～）</div>
+        </div>
+        <div class="notes-note">
+          服裝上問題都可以在群組一起討論唷～如果不確定的話都可以貼群組大家一起確認～
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ═══ TAB: 舞團資訊 ═══ -->
+<div id="panel-team" class="tab-panel">
+  <div class="team-panel">
+
+    <div class="notes-group">
+      <div class="notes-group-title">YouTube Channel</div>
+      <div class="notes-card">
+        <div class="notes-card-header">
+          <span class="notes-icon">▶</span>
+          <span class="notes-card-title">薛丁格的舞團</span>
+        </div>
+        <a class="ref-link" href="https://www.youtube.com/@SchroDancers" target="_blank" style="margin-bottom:14px;">
+          <span class="ref-dot gold"></span>
+          <span class="ref-label">www.youtube.com/@SchroDancers</span>
+          <span class="ref-arr">↗</span>
+        </a>
+        <p class="notes-desc" style="font-size:13px; margin-top:12px;">我們沒有舞團，但這頻道差不多都那些人，薛丁格的舞團（恩恩</p>
+      </div>
+    </div>
+
+    <div class="notes-group">
+      <div class="notes-group-title">本團成員</div>
+      <div class="team-table-wrap">
+        <table class="team-table">
+          <thead>
+            <tr>
+              <th class="t-th-num">編號</th>
+              <th class="t-th-name">成員</th>
+              <th class="t-th-role">角色</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td class="t-num">1</td><td class="t-name">Peggy</td><td class="t-role">S14 昭玹</td></tr>
+            <tr><td class="t-num">2</td><td class="t-name">Winnie</td><td class="t-role">S2 慧潾</td></tr>
+            <tr><td class="t-num">3</td><td class="t-name">Hsuan</td><td class="t-role">S4 采嬿</td></tr>
+            <tr><td class="t-num">4</td><td class="t-name">歐歐</td><td class="t-role">S8 裕彬</td></tr>
+            <tr><td class="t-num">5</td><td class="t-name">Annie</td><td class="t-role">S20 示溫</td></tr>
+            <tr><td class="t-num">6</td><td class="t-name">王王</td><td class="t-role">S9 楓</td></tr>
+            <tr><td class="t-num">7</td><td class="t-name">璨</td><td class="t-role">S16 真友</td></tr>
+            <tr><td class="t-num">8</td><td class="t-name">翊瑄</td><td class="t-role">S19 夏妍</td></tr>
+            <tr><td class="t-num">9</td><td class="t-name">佩詩</td><td class="t-role">S23 楷潾 (SeoAh)</td></tr>
+            <tr><td class="t-num">10</td><td class="t-name">香雞</td><td class="t-role">S13 念</td></tr>
+            <tr><td class="t-num">11</td><td class="t-name">律</td><td class="t-role">S5 琉然</td></tr>
+            <tr><td class="t-num">12</td><td class="t-name">欣瑜</td><td class="t-role">S22 Sullin</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="modal-overlay" id="attendModal">
+  <div class="modal-box">
+    <button class="modal-close" id="modalClose">✕</button>
+    <div class="modal-date" id="modalDate"></div>
+    <div class="modal-session" id="modalSession"></div>
+    <div class="modal-count">出席人數 <span id="modalCount"></span></div>
+    <div class="modal-members" id="modalMembers"></div>
+  </div>
+</div>
+
+<footer>
+  <p>Girls Never Die 🔥 &nbsp;<span style="letter-spacing:0.15em;">V 6.5</span></p>
+</footer>
+
+<script>
+  // ── Attendance data ──
+  const ALL = ['Hsuan','Peggy','Annie','香雞','歐歐','Winnie','王王','翊瑄','佩詩','律','璨','欣瑜'];
+  const ATTEND = {
+    '2026 / 02 / 26': { label:'學舞組 練1', present:['Hsuan','Peggy','Annie','Winnie','翊瑄','佩詩','律','璨','欣瑜'] },
+    '2026 / 03 / 04': { label:'學舞組 練2', present:['Hsuan','Winnie','翊瑄','佩詩','律','璨','欣瑜'] },
+    '2026 / 03 / 07': { label:'學舞組 練3', present:['Hsuan','Winnie','翊瑄','佩詩','律','璨','欣瑜'] },
+    '2026 / 03 / 17': { label:'學舞組 練4', present:['Hsuan','Annie','香雞','王王','翊瑄','佩詩','璨','欣瑜'] },
+    '2026 / 03 / 25': { label:'學舞組 練5', present:['Hsuan','Peggy','Annie','Winnie','翊瑄','佩詩','律','璨','欣瑜'] },
+    '2026 / 03 / 29': { label:'學舞組 練6', present:['Hsuan','Winnie','翊瑄','佩詩','律','璨','欣瑜'] },
+    '2026 / 03 / 31': { label:'學舞組 練7', present:['Hsuan','Annie','香雞','王王','翊瑄','佩詩','璨','欣瑜'] },
+    '2026 / 04 / 07': { label:'團練 1', present:['Hsuan','Peggy','Annie','香雞','歐歐','王王','璨','欣瑜'] },
+    '2026 / 04 / 11': { label:'團練 2', present:['Hsuan','Peggy','歐歐','佩詩','律','璨','欣瑜'] },
+    '2026 / 04 / 14': { label:'團練 3', present:['Hsuan','Peggy','Annie','香雞','歐歐','王王','翊瑄','佩詩','璨','欣瑜'] },
+    '2026 / 04 / 18': { label:'團練 4', present:['Hsuan','Peggy','Annie','香雞','歐歐','Winnie','王王','翊瑄','律','欣瑜'] },
+    '2026 / 04 / 22': { label:'團練 5', present:['Hsuan','Peggy','Annie','香雞','歐歐','Winnie','翊瑄','佩詩','律','璨','欣瑜'] },
+    '2026 / 04 / 25': { label:'團練 6', present:['Hsuan','Peggy','香雞','歐歐','Winnie','王王','翊瑄','佩詩','律','璨','欣瑜'] },
+    '2026 / 04 / 30': { label:'團練 7', present:['Hsuan','Peggy','Annie','香雞','歐歐','Winnie','王王','翊瑄','律','璨','欣瑜'] },
+    '2026 / 05 / 05': { label:'團練 8', present:['Hsuan','Peggy','Annie','香雞','歐歐','王王','翊瑄','佩詩','璨','欣瑜'] },
+    '2026 / 05 / 07': { label:'團練 9', present:['Hsuan','Peggy','Annie','香雞','歐歐','Winnie','王王','翊瑄','佩詩','律','璨','欣瑜'] },
+  };
+
+  // ── Modal ──
+  const overlay = document.getElementById('attendModal');
+  const modalClose = document.getElementById('modalClose');
+
+  function openModal(dateKey) {
+    const data = ATTEND[dateKey];
+    if (!data) return;
+    document.getElementById('modalDate').textContent = dateKey.replace(/ \/ /g, '/');
+    document.getElementById('modalSession').textContent = data.label;
+    document.getElementById('modalCount').textContent = data.present.length;
+
+    // Color: gold for 學舞組, cyan for 團練
+    const isGroup = data.label.startsWith('團練');
+    const modalDateEl = document.getElementById('modalDate');
+    const modalBox = document.querySelector('.modal-box');
+    modalDateEl.style.color = isGroup ? 'var(--cyan)' : 'var(--gold)';
+    modalBox.style.borderColor = isGroup ? 'rgba(122,204,232,0.5)' : 'var(--gold-dim)';
+
+    const membersEl = document.getElementById('modalMembers');
+    membersEl.innerHTML = '';
+    ALL.forEach(name => {
+      const el = document.createElement('span');
+      const present = data.present.includes(name);
+      el.className = 'modal-member' + (present ? '' : ' absent');
+      if (present && isGroup) el.style.cssText = 'background:rgba(122,204,232,.1);border-color:rgba(122,204,232,.45);color:var(--cyan)';
+      el.textContent = name;
+      membersEl.appendChild(el);
+    });
+
+    overlay.classList.add('open');
+  }
+
+  overlay.addEventListener('click', e => {
+    if (e.target === overlay) overlay.classList.remove('open');
+  });
+  modalClose.addEventListener('click', () => overlay.classList.remove('open'));
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') overlay.classList.remove('open');
+  });
+
+  // Attach click to event cards
+  document.querySelectorAll('.event-card').forEach(card => {
+    const dateEl = card.querySelector('.event-date');
+    if (!dateEl) return;
+    // Extract just the date portion e.g. "2026 / 02 / 26" ignoring weekday
+    const full = dateEl.textContent.trim();
+    const dateKey = full.replace(/（.*）/, '').trim();
+    if (ATTEND[dateKey]) {
+      card.addEventListener('click', e => {
+        // Don't fire if clicking a link
+        if (e.target.closest('a')) return;
+        openModal(dateKey);
+      });
+      card.title = '點擊查看出席人員';
+    }
+  });
+
+  // ── Tab switching ──
+  const tabs = document.querySelectorAll('.tab-btn');
+  tabs.forEach(btn => {
+    btn.addEventListener('click', () => {
+      tabs.forEach(t => t.classList.remove('active'));
+      document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById('panel-' + btn.dataset.tab).classList.add('active');
+      observeEvents();
+    });
+  });
+
+  // ── Scroll-in animation ──
+  function observeEvents() {
+    const events = document.querySelectorAll('.event:not(.visible)');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          setTimeout(() => entry.target.classList.add('visible'), 60);
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -20px 0px' });
+    events.forEach(el => observer.observe(el));
+  }
+  observeEvents();
+</script>
+</body>
+</html>
