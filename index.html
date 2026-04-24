@@ -327,6 +327,20 @@
     border: 1px solid rgba(232,122,159,.35);
   }
 
+  .tag-extra {
+    background: rgba(232,180,90,.1);
+    color: #e8b45a;
+    border: 1px solid rgba(232,180,90,.35);
+  }
+
+  .event.extra-event .event-date { color: #e8b45a; }
+  .event.extra-event .event-time { color: rgba(232,180,90,.55); }
+  .event.extra-event .timeline-dot { background: #e8b45a; box-shadow: 0 0 8px rgba(232,180,90,.5); }
+  .event.extra-event .event-card { border-color: rgba(232,180,90,.25); }
+  .event.extra-event .location-dot { background: #e8b45a; }
+  .phase-extra { background: rgba(232,180,90,.02); }
+  .phase-extra .sess-date { color: #e8b45a; }
+
   .attend-wrap {
     overflow-x: auto;
     border: 1px solid var(--border);
@@ -1425,6 +1439,23 @@
         </div>
       </div>
 
+      <div class="event extra-event">
+        <div class="event-card">
+          <div class="event-top">
+            <div class="event-datetime">
+              <span class="event-date">2026 / 04 / 28（二）</span>
+              <span class="event-time">19:30 – 21:30</span>
+            </div>
+            <div class="event-badges"><span class="badge" style="background:rgba(232,180,90,.1);color:#e8b45a;border:1px solid rgba(232,180,90,.35);">🔹 加練</span></div>
+          </div>
+          <div class="event-location">
+            <div class="location-dot"></div>
+            <span class="location-link" style="cursor:default;">北車 K區（暫定）</span>
+          </div>
+          <div class="event-content">▶ 雕舞、<span class="highlight">拍個人影片</span></div>
+        </div>
+      </div>
+
       <div class="event group-event">
         <div class="event-card">
           <div class="event-top">
@@ -1439,6 +1470,23 @@
             <a class="location-link" href="https://maps.app.goo.gl/NDkgnYKCJyata5z56" target="_blank">YNest Studio A ↗</a>
           </div>
           <div class="event-content">▶ 練背鏡、雕舞/整齊度、熟悉再熟悉、<span class="highlight">拍個人&amp;團練影片</span></div>
+        </div>
+      </div>
+
+      <div class="event extra-event">
+        <div class="event-card">
+          <div class="event-top">
+            <div class="event-datetime">
+              <span class="event-date">2026 / 05 / 03（日）</span>
+              <span class="event-time">10:00 – 13:00</span>
+            </div>
+            <div class="event-badges"><span class="badge" style="background:rgba(232,180,90,.1);color:#e8b45a;border:1px solid rgba(232,180,90,.35);">🔹 加練</span></div>
+          </div>
+          <div class="event-location">
+            <div class="location-dot"></div>
+            <a class="location-link" href="https://maps.app.goo.gl/hzBmvgFE6kL7aLbm8" target="_blank">WAGU Studio ↗</a>
+          </div>
+          <div class="event-content">▶ 雕舞、<span class="highlight">拍個人影片</span></div>
         </div>
       </div>
 
@@ -1575,10 +1623,20 @@
             <td class="v">✓</td><td class="v">✓</td><td class="v">✓</td><td class="v">✓</td><td class="v">✓</td><td class="v">✓</td><td class="v">✓</td><td class="v">✓</td><td class="v">✓</td><td class="v">✓</td><td class="v">✓</td><td class="v">✓</td>
             <td class="col-count cnt cnt-full">12</td>
           </tr>
-          <tr class="phase-group row-full">
+          <tr class="phase-extra">
+            <td class="col-session"><span class="sess-date">04/28</span><span class="sess-label">加練</span></td>
+            <td class="v">✓</td><td></td><td class="v">✓</td><td></td><td class="v">✓</td><td></td><td class="v">✓</td><td class="v">✓</td><td class="v">✓</td><td></td><td class="v">✓</td><td class="v">✓</td>
+            <td class="col-count cnt">8</td>
+          </tr>
+          <tr class="phase-group">
             <td class="col-session"><span class="sess-date">04/30</span><span class="sess-label">團練 7</span></td>
-            <td class="v">✓</td><td class="v">✓</td><td class="v">✓</td><td class="v">✓</td><td class="v">✓</td><td class="v">✓</td><td class="v">✓</td><td class="v">✓</td><td class="v">✓</td><td class="v">✓</td><td class="v">✓</td><td class="v">✓</td>
-            <td class="col-count cnt cnt-full">12</td>
+            <td class="v">✓</td><td class="v">✓</td><td class="v">✓</td><td class="v">✓</td><td class="v">✓</td><td class="v">✓</td><td class="v">✓</td><td></td><td class="v">✓</td><td class="v">✓</td><td class="v">✓</td><td class="v">✓</td>
+            <td class="col-count cnt">11</td>
+          </tr>
+          <tr class="phase-extra">
+            <td class="col-session"><span class="sess-date">05/03</span><span class="sess-label">加練</span></td>
+            <td class="v">✓</td><td></td><td></td><td class="v">✓</td><td class="v">✓</td><td class="v">✓</td><td></td><td class="v">✓</td><td class="v">✓</td><td class="v">✓</td><td></td><td></td>
+            <td class="col-count cnt">7</td>
           </tr>
           <tr class="phase-group">
             <td class="col-session"><span class="sess-date">05/05</span><span class="sess-label">團練 8</span></td>
@@ -1954,7 +2012,7 @@
 </div>
 
 <footer>
-  <p>Girls Never Die 🔥 &nbsp;<span style="letter-spacing:0.15em;">V 7.5</span></p>
+  <p>Girls Never Die 🔥 &nbsp;<span style="letter-spacing:0.15em;">V 7.6</span></p>
 </footer>
 
 <script>
@@ -1981,7 +2039,9 @@
     '2026 / 04 / 18': { label:'團練 4', present:['Hsuan','Peggy','Annie','香雞','Winnie','王王','翊瑄','律','璨','欣瑜'] },
     '2026 / 04 / 22': { label:'團練 5', present:['Hsuan','Peggy','Annie','香雞','歐歐','Winnie','翊瑄','佩詩','律','欣瑜'] },
     '2026 / 04 / 25': { label:'團練 6', present:['Hsuan','Peggy','Annie','香雞','歐歐','Winnie','王王','翊瑄','佩詩','律','璨','欣瑜'] },
-    '2026 / 04 / 30': { label:'團練 7', present:['Hsuan','Peggy','Annie','香雞','歐歐','Winnie','王王','翊瑄','佩詩','律','璨','欣瑜'] },
+    '2026 / 04 / 28': { label:'加練', present:['Hsuan','Annie','歐歐','王王','翊瑄','佩詩','璨','欣瑜'] },
+    '2026 / 04 / 30': { label:'團練 7', present:['Hsuan','Peggy','Annie','香雞','歐歐','Winnie','王王','佩詩','律','璨','欣瑜'] },
+    '2026 / 05 / 03': { label:'加練', present:['Hsuan','香雞','歐歐','Winnie','翊瑄','佩詩','律'] },
     '2026 / 05 / 05': { label:'團練 8', present:['Hsuan','Peggy','Annie','香雞','歐歐','王王','翊瑄','佩詩','璨','欣瑜'] },
     '2026 / 05 / 07': { label:'團練 9', present:['Hsuan','Peggy','Annie','香雞','歐歐','Winnie','王王','翊瑄','佩詩','律','璨','欣瑜'] },
   };
